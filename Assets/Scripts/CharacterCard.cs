@@ -12,10 +12,14 @@ public class CharacterCard : MonoBehaviour
     public TMP_Text healthText;
     public int maxHealth;
 
+    private RectTransform rect;
+    private GameObject addVariableButton;
     private bool error = false;
 
     private void Start()
     {
+        rect = GetComponent<RectTransform>();
+        addVariableButton = transform.GetChild(0).gameObject;
         characterStats = new Dictionary<string, float>();
         characterStats.Add("MaxHealth", maxHealth);
         characterStats.Add("Health", characterStats["MaxHealth"]);
@@ -61,12 +65,16 @@ public class CharacterCard : MonoBehaviour
 
     public void AddNewVariable()
     {
+        rect.sizeDelta = new Vector2(rect.sizeDelta.x, rect.sizeDelta.y + 25);
+        TMP_InputField instance = Instantiate(characterStatInput);
+        instance.transform.SetParent(transform.GetChild(1)); //Makes the scale .87 something
+        instance.GetComponent<RectTransform>().localScale = new Vector3(1, 1, 1); //Sets the scale back to 1
+    } //Called from addVariableButton
 
-    }
-
-    public void RemoveVariable()
+    public void RemoveVariable(GameObject caller)
     {
-
+        rect.sizeDelta = new Vector2(rect.sizeDelta.x, rect.sizeDelta.y - 25);
+        Destroy(caller.transform.parent.gameObject);
     }
 
     /*
