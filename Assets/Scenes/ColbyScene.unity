@@ -775,7 +775,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 4363188}
         m_TargetAssemblyTypeName: CharacterCard, Assembly-CSharp
         m_MethodName: TakeDamage
         m_Mode: 1
@@ -998,6 +998,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 822406452}
     m_Modifications:
+    - target: {fileID: 359932021, guid: f0adcb8c8e7645948bba7689c116dc15, type: 3}
+      propertyPath: m_Navigation.m_Mode
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1409831678031936390, guid: f0adcb8c8e7645948bba7689c116dc15, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -1102,6 +1106,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: CharacterCard
       objectReference: {fileID: 0}
+    - target: {fileID: 3581695952171148553, guid: f0adcb8c8e7645948bba7689c116dc15, type: 3}
+      propertyPath: characterStatInput
+      value: 
+      objectReference: {fileID: 1924949482242332348, guid: 77dbdbff328a1cc4dabe48451fd8db58, type: 3}
     - target: {fileID: 3581695952171148553, guid: f0adcb8c8e7645948bba7689c116dc15, type: 3}
       propertyPath: damageFormulaReader
       value: 
