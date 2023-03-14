@@ -26,6 +26,11 @@ public class CharacterCard : MonoBehaviour
     public void UpdateDictonary(TMP_InputField characterStatInputInstance)
     {
         error = false;
+        if (characterStatInputInstance.GetComponent<CharacterStatsInput>().key != null)
+        {
+            characterStats.Remove(characterStatInputInstance.GetComponent<CharacterStatsInput>().key);
+            characterStatInputInstance.GetComponent<CharacterStatsInput>().key = null;
+        }
         //Check characterStatInput and take anything starting with the new line character up until a colon as a key and after a space in front of a colon a number is the value
         List<string> splitString = characterStatInputInstance.text.Split(": ").ToList(); //splitString has an element for before the colon and an element for after the colon
         if (splitString.Count != 2)
