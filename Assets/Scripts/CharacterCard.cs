@@ -8,9 +8,10 @@ public class CharacterCard : MonoBehaviour
     public DamageFormulaReader damageFormulaReader;
     public Dictionary<string, float> characterStats;
     public TMP_InputField characterStatInput;
-    public TMP_Text healthText;
-    public int maxHealth;
+    public TMP_InputField health;
 
+    private float healthValue;
+    private float maxHealth;
     private RectTransform rect;
     private bool error = false;
 
@@ -18,10 +19,70 @@ public class CharacterCard : MonoBehaviour
     {
         rect = GetComponent<RectTransform>();
         characterStats = new Dictionary<string, float>();
+
+        List<string> healthAmount = health.text.Split("/").ToList();
+        if (healthAmount.Count != 2)
+        {
+            health.transform.GetChild(1).gameObject.SetActive(true);
+            return;
+        }
+        for (int i = 0; i < healthAmount[0].Count(); i++) //If the elements aren't numbers, don't update
+        {
+            if (!char.IsDigit(healthAmount[0][i]))
+            {
+                Debug.LogWarning("input number not a number " + healthAmount[0][i]);
+                health.transform.GetChild(1).gameObject.SetActive(true);
+                return;
+            }
+        }
+        for (int i = 0; i < healthAmount[1].Count(); i++) //If the elements aren't numbers, don't update
+        {
+            if (!char.IsDigit(healthAmount[1][i]))
+            {
+                Debug.LogWarning("input number not a number " + healthAmount[1][i]);
+                health.transform.GetChild(1).gameObject.SetActive(true);
+                return;
+            }
+        }
+        healthValue = float.Parse(healthAmount[0]);
+        maxHealth = float.Parse(healthAmount[1]);
         characterStats.Add("MaxHealth", maxHealth);
-        characterStats.Add("Health", characterStats["MaxHealth"]);
-        healthText.text = "Health: " + characterStats["Health"] + "/" + characterStats["MaxHealth"];
+        characterStats.Add("Health", healthValue);
+        health.transform.GetChild(1).gameObject.SetActive(false);
     }
+
+    public void UpdateHealth()
+    {
+        List<string> healthAmount = health.text.Split("/").ToList();
+        if (healthAmount.Count != 2)
+        {
+            health.transform.GetChild(1).gameObject.SetActive(true);
+            return;
+        }
+        for (int i = 0; i < healthAmount[0].Count(); i++) //If the elements aren't numbers, don't update
+        {
+            if (!char.IsDigit(healthAmount[0][i]))
+            {
+                Debug.LogWarning("input number not a number " + healthAmount[0][i]);
+                health.transform.GetChild(1).gameObject.SetActive(true);
+                return;
+            }
+        }
+        for (int i = 0; i < healthAmount[1].Count(); i++) //If the elements aren't numbers, don't update
+        {
+            if (!char.IsDigit(healthAmount[1][i]))
+            {
+                Debug.LogWarning("input number not a number " + healthAmount[1][i]);
+                health.transform.GetChild(1).gameObject.SetActive(true);
+                return;
+            }
+        }
+        healthValue = float.Parse(healthAmount[0]);
+        maxHealth = float.Parse(healthAmount[1]);
+        characterStats.Add("MaxHealth", maxHealth);
+        characterStats.Add("Health", healthValue);
+        health.transform.GetChild(1).gameObject.SetActive(false);
+    } //Called from onValueChanged from healthInput
 
     public void UpdateDictonary(TMP_InputField characterStatInputInstance)
     {
@@ -90,27 +151,22 @@ public class CharacterCard : MonoBehaviour
         instance.onValueChanged.AddListener(delegate { UpdateDictonary(instance); });
     } //Called from addVariableButton
 
-    /*
+    
     public void TakeDamage()
     {
         //take health text, turn it into an int, subtract damage, turn it back into text and display it 
-        List<string> health = healthText.Split("/").ToList();
-        Debug.Log("damageFormulaReader.damage = " + damageFormulaReader.damage);
-        float newHealth = int.Parse(health[0]) - damageFormulaReader.damage;
-        healthText = newHealth.ToString() + "/" + health[1];
+        List<string> healthAmount = health.text.Split("/").ToList();
+        healthValue = float.Parse(healthAmount[0]);
+        healthValue -= damageFormulaReader.damage;
+        characterStats["Health"] = healthValue;
+        health.text = characterStats["Health"] + "/" + characterStats["MaxHealth"];
     }
-    */
-    public void TakeDamage()
-    {
-        characterStats["Health"] = characterStats["Health"] - damageFormulaReader.damage;
-        healthText.text = "Health: " + characterStats["Health"] + "/" + characterStats["MaxHealth"];
-    } //Called from attack button 
 
     public void PrintDictonary()
     {
         foreach (string item in characterStats.Keys)
         {
-            Debug.Log("Key: " + item + " + Value: " + characterStats[item]);   
+            Debug.Log("Key: " + item + " Value: " + characterStats[item]);   
         }
     }
 }

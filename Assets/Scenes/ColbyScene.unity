@@ -642,6 +642,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: CharacterCard (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 3028025186801720270, guid: f0adcb8c8e7645948bba7689c116dc15, type: 3}
+      propertyPath: m_text
+      value: "100/100\u200B"
+      objectReference: {fileID: 0}
     - target: {fileID: 3581695952171148553, guid: f0adcb8c8e7645948bba7689c116dc15, type: 3}
       propertyPath: damageFormulaReader
       value: 
@@ -789,24 +793,8 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 822406452}
     m_Modifications:
-    - target: {fileID: 359932021, guid: f0adcb8c8e7645948bba7689c116dc15, type: 3}
-      propertyPath: m_Navigation.m_Mode
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1409831678031936390, guid: f0adcb8c8e7645948bba7689c116dc15, type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1409831678031936390, guid: f0adcb8c8e7645948bba7689c116dc15, type: 3}
-      propertyPath: m_AnchorMin.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1409831678031936390, guid: f0adcb8c8e7645948bba7689c116dc15, type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1409831678031936390, guid: f0adcb8c8e7645948bba7689c116dc15, type: 3}
-      propertyPath: m_AnchoredPosition.y
+    - target: {fileID: 509018804112339911, guid: f0adcb8c8e7645948bba7689c116dc15, type: 3}
+      propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2757384342217761694, guid: f0adcb8c8e7645948bba7689c116dc15, type: 3}
@@ -898,13 +886,13 @@ PrefabInstance:
       value: CharacterCard
       objectReference: {fileID: 0}
     - target: {fileID: 3581695952171148553, guid: f0adcb8c8e7645948bba7689c116dc15, type: 3}
-      propertyPath: characterStatInput
-      value: 
-      objectReference: {fileID: 1924949482242332348, guid: 77dbdbff328a1cc4dabe48451fd8db58, type: 3}
-    - target: {fileID: 3581695952171148553, guid: f0adcb8c8e7645948bba7689c116dc15, type: 3}
       propertyPath: damageFormulaReader
       value: 
       objectReference: {fileID: 1984287461}
+    - target: {fileID: 7796372474466886207, guid: f0adcb8c8e7645948bba7689c116dc15, type: 3}
+      propertyPath: m_Text
+      value: 100/100
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f0adcb8c8e7645948bba7689c116dc15, type: 3}
 --- !u!1 &1821087986
