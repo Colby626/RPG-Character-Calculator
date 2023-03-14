@@ -66,6 +66,7 @@ public class CharacterCard : MonoBehaviour
             if (!characterStats.ContainsKey(splitString[0])) //If the dictonary doesn't already contain that key value 
             {
                 characterStatInputInstance.transform.GetChild(0).gameObject.SetActive(false); //If no error, remove error symbol
+                characterStatInputInstance.GetComponent<CharacterStatsInput>().key = splitString[0];
                 characterStats.Add(splitString[0], float.Parse(splitString[1]));
             }
         }
