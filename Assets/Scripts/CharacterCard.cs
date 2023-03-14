@@ -14,6 +14,7 @@ public class CharacterCard : MonoBehaviour
     private float maxHealth;
     private RectTransform rect;
     private bool error = false;
+    private bool healthError = false;
 
     private void Start()
     {
@@ -54,34 +55,53 @@ public class CharacterCard : MonoBehaviour
     public void UpdateHealth()
     {
         List<string> healthAmount = health.text.Split("/").ToList();
+        characterStats.Remove("MaxHealth");
+        characterStats.Remove("Health");
+        healthError = false;
         if (healthAmount.Count != 2)
         {
+            Debug.LogWarning("not 2 items separated by a /");
             health.transform.GetChild(1).gameObject.SetActive(true);
             return;
         }
-        for (int i = 0; i < healthAmount[0].Count(); i++) //If the elements aren't numbers, don't update
+        if (healthAmount[0].Count() > 0)
         {
-            if (!char.IsDigit(healthAmount[0][i]))
+            for (int i = 0; i < healthAmount[0].Count(); i++) //If the elements aren't numbers, don't update
             {
-                Debug.LogWarning("input number not a number " + healthAmount[0][i]);
-                health.transform.GetChild(1).gameObject.SetActive(true);
-                return;
+                if (!char.IsDigit(healthAmount[0][i]))
+                {
+                    Debug.LogWarning("input number not a number " + healthAmount[0][i]);
+                    healthError = true;
+                    break;
+                }
             }
         }
-        for (int i = 0; i < healthAmount[1].Count(); i++) //If the elements aren't numbers, don't update
+        else
+            healthError = true;
+        if (healthAmount[1].Count() > 0)
         {
-            if (!char.IsDigit(healthAmount[1][i]))
+            for (int i = 0; i < healthAmount[1].Count(); i++) //If the elements aren't numbers, don't update
             {
-                Debug.LogWarning("input number not a number " + healthAmount[1][i]);
-                health.transform.GetChild(1).gameObject.SetActive(true);
-                return;
+                if (!char.IsDigit(healthAmount[1][i]))
+                {
+                    Debug.LogWarning("input number not a number " + healthAmount[1][i]);
+                    healthError = true;
+                    break;
+                }
             }
         }
-        healthValue = float.Parse(healthAmount[0]);
-        maxHealth = float.Parse(healthAmount[1]);
-        characterStats.Add("MaxHealth", maxHealth);
-        characterStats.Add("Health", healthValue);
-        health.transform.GetChild(1).gameObject.SetActive(false);
+        else
+            healthError = true;
+        if (!healthError)
+        {
+            healthValue = float.Parse(healthAmount[0]);
+            maxHealth = float.Parse(healthAmount[1]);
+            characterStats.Add("MaxHealth", maxHealth);
+            characterStats.Add("Health", healthValue);
+            health.transform.GetChild(1).gameObject.SetActive(false);
+        }
+        else
+            health.transform.GetChild(1).gameObject.SetActive(true);
     } //Called from onValueChanged from healthInput
 
     public void UpdateDictonary(TMP_InputField characterStatInputInstance)
@@ -113,7 +133,7 @@ public class CharacterCard : MonoBehaviour
         }
         else
             error = true;
-        if (splitString[1].Count() > 0)
+        if (splitString[1] != null)
         {
             for (int i = 0; i < splitString[1].Count(); i++) //If the element after the colon isn't a number, don't update the dictonary
             {
