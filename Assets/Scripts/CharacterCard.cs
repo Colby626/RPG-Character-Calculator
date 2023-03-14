@@ -28,6 +28,11 @@ public class CharacterCard : MonoBehaviour
         error = false;
         //Check characterStatInput and take anything starting with the new line character up until a colon as a key and after a space in front of a colon a number is the value
         List<string> splitString = characterStatInputInstance.text.Split(": ").ToList(); //splitString has an element for before the colon and an element for after the colon
+        if (splitString.Count != 2)
+        {
+            characterStatInputInstance.transform.GetChild(0).gameObject.SetActive(true); //show error symbol
+            return;
+        }
         if (splitString[0] != null)
         {
             for (int i = 0; i < splitString[0].Length - 1; i++) //If the element before the colon isn't only letters, don't update the dictonary
@@ -42,9 +47,9 @@ public class CharacterCard : MonoBehaviour
         }
         else
             error = true;
-        if (splitString[1] != null)
+        if (splitString[1].Count() > 0)
         {
-            for (int i = 0; i < splitString[1].Length; i++) //If the element after the colon isn't a number, don't update the dictonary
+            for (int i = 0; i < splitString[1].Count(); i++) //If the element after the colon isn't a number, don't update the dictonary
             {
                 if (!char.IsDigit(splitString[1][i]))
                 {
@@ -62,7 +67,6 @@ public class CharacterCard : MonoBehaviour
             {
                 characterStatInputInstance.transform.GetChild(0).gameObject.SetActive(false); //If no error, remove error symbol
                 characterStats.Add(splitString[0], float.Parse(splitString[1]));
-                Debug.Log("Key: '" + splitString[0] + "' Value '" + splitString[1] + "'");
             }
         }
         else
@@ -77,6 +81,7 @@ public class CharacterCard : MonoBehaviour
         TMP_InputField instance = Instantiate(characterStatInput);
         instance.transform.SetParent(transform.GetChild(1)); //Makes the scale .87 something
         instance.GetComponent<RectTransform>().localScale = new Vector3(1, 1, 1); //Sets the scale back to 1
+        instance.onValueChanged.AddListener(delegate { UpdateDictonary(instance); });
     } //Called from addVariableButton
 
     /*
@@ -91,7 +96,15 @@ public class CharacterCard : MonoBehaviour
     */
     public void TakeDamage()
     {
-        characterStats["Health"] -= damageFormulaReader.damage;
+        characterStats["Health"] = characterStats["Health"] - damageFormulaReader.damage;
         healthText.text = "Health: " + characterStats["Health"] + "/" + characterStats["MaxHealth"];
     } //Called from attack button 
+
+    public void PrintDictonary()
+    {
+        foreach (string item in characterStats.Keys)
+        {
+            Debug.Log("Key: " + item + " + Value: " + characterStats[item]);   
+        }
+    }
 }

@@ -9,6 +9,7 @@ public class DamageFormulaReader : MonoBehaviour
     public int damage;
     public CharacterCard receivingCard;
 
+    private float newValue;
     private GameObject warningSign;
     private List<string> possibleKeys = new();
 
@@ -19,7 +20,6 @@ public class DamageFormulaReader : MonoBehaviour
 
     private void Update()
     {
-        float newValue;
         //tryParse the inputfield
         //Compare strings with cardStatVariables
         if (attackingCard.characterStats.TryGetValue(inputField.text, out newValue))
@@ -31,7 +31,6 @@ public class DamageFormulaReader : MonoBehaviour
             warningSign.SetActive(true);
         }
         //If it matches, grab the value of that variable
-        Debug.Log("This is the value of the inputField: " + newValue);
         //If it doesn't, create a warning signal on the inputField
         damage = (int)newValue;
     }
