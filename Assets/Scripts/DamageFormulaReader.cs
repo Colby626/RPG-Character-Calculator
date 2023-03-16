@@ -1,6 +1,7 @@
 using UnityEngine;
 using TMPro;
 using System.Collections.Generic;
+using System.Linq;
 // Expression Evaluator converted from (c) Peter Kankowski, 2007. 
 
 public class DamageFormulaReader : MonoBehaviour
@@ -26,6 +27,7 @@ public class DamageFormulaReader : MonoBehaviour
     private float newValue;
     private GameObject warningSign;
     private List<string> possibleKeys = new();
+    private string mathExpression;
 
     private void Start()
     {
@@ -36,18 +38,32 @@ public class DamageFormulaReader : MonoBehaviour
     private void Update()
     {
         //tryParse the inputfield
+        mathExpression = "";
+        possibleKeys = inputField.text.Split(" ").ToList();
         //Compare strings with cardStatVariables
-        if (attackingCard.characterStats.TryGetValue(inputField.text, out newValue))
-        {
-            warningSign.SetActive(false);
-        }
-        else
-        {
-            warningSign.SetActive(true);
-        }
         //If it matches, grab the value of that variable
         //If it doesn't, create a warning signal on the inputField
-        damage = (int)newValue;
+        for (int i = 0; i < possibleKeys.Count; i++)
+        {
+            if (possibleKeys[i] == "+" || possibleKeys[i] == "-" || possibleKeys[i] == "*" || possibleKeys[i] == "/" || possibleKeys[i] == "(" || possibleKeys[i] == ")")
+            {
+                warningSign.SetActive(false);
+                mathExpression += possibleKeys[i];
+            }
+            else if (attackingCard.characterStats.TryGetValue(possibleKeys[i], out newValue))
+            {
+                warningSign.SetActive(false);
+                mathExpression += newValue;
+            }
+            else
+            {
+                warningSign.SetActive(true);
+            }
+        }
+        if (!warningSign.activeSelf) //If there are no errors, calculate damage
+        {
+            damage = (int)Evaluate(mathExpression);
+        }
     }
 
 	// Parse a number or an expression in parenthesis
@@ -198,7 +214,7 @@ public class DamageFormulaReader : MonoBehaviour
         }
     }
 
-    public void Evaluate(string expression)
+    public double Evaluate(string expression)
     {
         parenthesisCount = 0;
         errorCode = ERROR_CODES.NO_ERROR;
@@ -206,15 +222,15 @@ public class DamageFormulaReader : MonoBehaviour
         double result = ParseSummands(expression);
         if (index >= expression.Length)
         {
-            //return result;
             Debug.Log(result);
+            return result;
         }
         else if (parenthesisCount != 0 || expression[index] == ')')
         {
             errorCode = ERROR_CODES.PARENTHESIS;
             errorPosition = index;
-            //return 0;
             Debug.Log(errorCode);
+            return 0;
         }
         /* Cstrings end in \0, but not strings
         if (expression[index] != '\0')
@@ -226,6 +242,7 @@ public class DamageFormulaReader : MonoBehaviour
             Debug.Log("Error at the end");
         }
         */
+        return result;
     }
 
     public ERROR_CODES GetError()
