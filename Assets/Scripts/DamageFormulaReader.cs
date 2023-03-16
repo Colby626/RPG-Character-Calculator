@@ -19,6 +19,7 @@ public class DamageFormulaReader : MonoBehaviour
         DIVIDE_BY_ZERO = 3
     };
 
+    private int index;
 	private ERROR_CODES errorCode;
 	private int errorPosition;
 	private int parenthesisCount = 0;
@@ -50,11 +51,14 @@ public class DamageFormulaReader : MonoBehaviour
     }
 
 	// Parse a number or an expression in parenthesis
-	private double ParseAtom(string expression, int index)
+	private double ParseAtom(string expression)
 	{
+        double result;
 		// Skip spaces
 		while (expression[index] == ' ')
+        {
 			index++;
+        }
 
 		// Handle the sign before parenthesis (or before number) 
 		bool negative = false;
@@ -65,15 +69,15 @@ public class DamageFormulaReader : MonoBehaviour
 		}
 		if (expression[index] == '+')
 		{
-			index++;
+            index++;
 		}
 
 		// Check if there is parenthesis
 		if (expression[index] == '(')
 		{
-			index++;
+            index++;
 			parenthesisCount++;
-			double result = ParseSummands(expression, index);
+			result = ParseSummands(expression);
 			if (expression[index] != ')')
 			{
 				// Unmatched opening parenthesis
@@ -88,39 +92,64 @@ public class DamageFormulaReader : MonoBehaviour
         else
         {
             // It should be a number; convert it to double
-            double? result = expression[index];
-            if (result == null)
+            if (char.IsDigit(expression[index]))
+            {
+                result = expression[index] - 48; //- 48 is to convert from ascii to decimal
+                index++;
+                if (index >= expression.Length)
+                {
+                    return result;
+                }
+                while (char.IsDigit(expression[index])) //For each digit of a multiple digit number
+                {
+                    result *= 10; 
+                    result += expression[index] - 48; //- 48 is to convert from ascii to decimal
+                    index++;
+                    if (index >= expression.Length)
+                    {
+                        return result;
+                    }
+                }
+            }
+            else
             {
                 // Report error
                 errorCode = ERROR_CODES.WRONG_CHAR;
                 errorPosition = index;
                 return 0;
             }
-            else
-            {
-                // Advance the pointer and return the result
-                index++;
-		        return negative ? (double)-result : (double)result;
-            }
+            // Advance the pointer and return the result
+		    return negative ? -result : result;
         }
     }
 
     // Parse multiplication and division
-    private double ParseFactors(string expression, int index)
+    private double ParseFactors(string expression)
     {
-        double num1 = ParseAtom(expression, index);
+        double num1 = ParseAtom(expression);
         for (; ; )
         {
             // Skip spaces
+            if (index >= expression.Length)
+            {
+                return num1;
+            }
             while (expression[index] == ' ')
+            {
                 index++;
+                if (index >= expression.Length)
+                {
+                    return num1;
+                }
+            }
             // Save the operation and position
             char operation = expression[index];
-            int position = index;
             if (operation != '/' && operation != '*')
+            {
                 return num1;
+            }
             index++;
-            double num2 = ParseAtom(expression, index);
+            double num2 = ParseAtom(expression);
             // Perform the saved operation
             if (operation == '/')
             {
@@ -139,19 +168,29 @@ public class DamageFormulaReader : MonoBehaviour
     }
 
     // Parse addition and subtraction
-    private double ParseSummands(string expression, int index)
+    private double ParseSummands(string expression)
     {
-        double num1 = ParseFactors(expression, index);
+        double num1 = ParseFactors(expression);
         for (; ; )
         {
             // Skip spaces
+            if (index >= expression.Length)
+            {
+                return num1;
+            }
             while (expression[index] == ' ')
+            {
                 index++;
+                if (index >= expression.Length)
+                {
+                    return num1;
+                }
+            }
             char operation = expression[index];
             if (operation != '-' && operation != '+')
                 return num1;
             index++;
-            double num2 = ParseFactors(expression, index);
+            double num2 = ParseFactors(expression);
             if (operation == '-')
                 num1 -= num2;
             else
@@ -163,25 +202,30 @@ public class DamageFormulaReader : MonoBehaviour
     {
         parenthesisCount = 0;
         errorCode = ERROR_CODES.NO_ERROR;
-        int index = 0;
-        double result = ParseSummands(expression, index);
-        // Now, expr should point to '\0', and _paren_count should be zero
-        if (parenthesisCount != 0 || expression[index] == ')')
+        index = 0;
+        double result = ParseSummands(expression);
+        if (index >= expression.Length)
+        {
+            //return result;
+            Debug.Log(result);
+        }
+        else if (parenthesisCount != 0 || expression[index] == ')')
         {
             errorCode = ERROR_CODES.PARENTHESIS;
             errorPosition = index;
             //return 0;
             Debug.Log(errorCode);
         }
+        /* Cstrings end in \0, but not strings
         if (expression[index] != '\0')
         {
             errorCode = ERROR_CODES.WRONG_CHAR;
             errorPosition = index;
             //return 0;
             Debug.Log(errorCode);
+            Debug.Log("Error at the end");
         }
-        //return result;
-        Debug.Log(result);
+        */
     }
 
     public ERROR_CODES GetError()
