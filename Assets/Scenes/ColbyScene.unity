@@ -2030,6 +2030,34 @@ PrefabInstance:
       propertyPath: receivingCard
       value: 
       objectReference: {fileID: 4363188}
+    - target: {fileID: 8700985476202451365, guid: 9e22384336e93264b9a41fe541f91184, type: 3}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8700985476202451365, guid: 9e22384336e93264b9a41fe541f91184, type: 3}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8700985476202451365, guid: 9e22384336e93264b9a41fe541f91184, type: 3}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1984287461}
+    - target: {fileID: 8700985476202451365, guid: 9e22384336e93264b9a41fe541f91184, type: 3}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8700985476202451365, guid: 9e22384336e93264b9a41fe541f91184, type: 3}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: DamageFormulaInput
+      objectReference: {fileID: 0}
+    - target: {fileID: 8700985476202451365, guid: 9e22384336e93264b9a41fe541f91184, type: 3}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: DamageFormulaReader, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 8700985476202451365, guid: 9e22384336e93264b9a41fe541f91184, type: 3}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 8700985476202451366, guid: 9e22384336e93264b9a41fe541f91184, type: 3}
       propertyPath: m_Pivot.x
       value: 1

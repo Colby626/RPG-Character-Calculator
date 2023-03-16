@@ -2,6 +2,8 @@ using UnityEngine;
 using TMPro;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
+using System;
 // Expression Evaluator converted from (c) Peter Kankowski, 2007. 
 
 public class DamageFormulaReader : MonoBehaviour
@@ -35,14 +37,38 @@ public class DamageFormulaReader : MonoBehaviour
         instantiateSpot = new Vector2(320f, 420f);
     }
 
-    private void Update()
+    public void DamageFormulaInput()
     {
-        //tryParse the inputfield
+        bool previousIsSpecial = false;
+        StringBuilder stringBuilder = new();
+        string tempExpression = inputField.text.ToString(); //ToString() to avoid them referencing the same string and only to copy it
+
+        foreach (char character in tempExpression)
+        {
+            char b = character;
+            // if it's a non special character
+            if (b != '+' && b != '-' && b != '*' && b != '/' && b != '(' && b != ')' && b != ' ')
+            {
+                // add a space if the previous char was special and add the current character
+                stringBuilder.Append((previousIsSpecial ? " " : "") + character);
+
+                // mark this character as not special for the next loop
+                previousIsSpecial = false;
+            }
+            else
+            {
+                // always add the space before a special character
+                stringBuilder.Append(" " + character);
+
+                // mark this character as special for the next iteration
+                previousIsSpecial = true;
+            }
+        }
+
+        tempExpression = stringBuilder.ToString();
+        possibleKeys = tempExpression.Split(" ").ToList();
         mathExpression = "";
-        possibleKeys = inputField.text.Split(" ").ToList();
-        //Compare strings with cardStatVariables
-        //If it matches, grab the value of that variable
-        //If it doesn't, create a warning signal on the inputField
+
         for (int i = 0; i < possibleKeys.Count; i++)
         {
             if (possibleKeys[i] == "+" || possibleKeys[i] == "-" || possibleKeys[i] == "*" || possibleKeys[i] == "/" || possibleKeys[i] == "(" || possibleKeys[i] == ")")
@@ -63,6 +89,10 @@ public class DamageFormulaReader : MonoBehaviour
         if (!warningSign.activeSelf) //If there are no errors, calculate damage
         {
             damage = (int)Evaluate(mathExpression);
+        }
+        else
+        {
+            damage = 0;
         }
     }
 
