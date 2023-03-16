@@ -133,15 +133,46 @@ public class CharacterCard : MonoBehaviour
         }
         else
             error = true;
-        if (splitString[1] != null)
+        bool beforeNumber = true;
+        bool afterNumber = false;
+        Debug.Log(splitString[1].Count());
+        if (splitString[1] != null && splitString[1].Count() > 0)
         {
-            for (int i = 0; i < splitString[1].Count(); i++) //If the element after the colon isn't a number, don't update the dictonary
+            for (int i = 0; i < splitString[1].Length; i++) //If the element after the colon isn't a number, don't update the dictonary
             {
+                if (char.IsWhiteSpace(splitString[1][i]))
+                {
+                    if (beforeNumber)
+                    {
+                        if (i == splitString[1].Length - 1)
+                        {
+                            error = true;
+                            Debug.LogWarning("Value is nothing but whitespace");
+                            break;
+                        }
+                        continue;
+                    }
+                    else
+                    {
+                        afterNumber = true;
+                        continue;
+                    }
+                }
                 if (!char.IsDigit(splitString[1][i]))
                 {
                     error = true;
                     Debug.LogWarning("input number not a number " + splitString[1][i]);
                     break;
+                }
+                else
+                {
+                    beforeNumber = false;
+                    if (afterNumber)
+                    {
+                        error = true;
+                        Debug.LogWarning("input number cannot have multiple values");
+                        break;
+                    }
                 }
             }
         }

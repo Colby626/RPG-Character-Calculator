@@ -3,7 +3,6 @@ using TMPro;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System;
 // Expression Evaluator converted from (c) Peter Kankowski, 2007. 
 
 public class DamageFormulaReader : MonoBehaviour
