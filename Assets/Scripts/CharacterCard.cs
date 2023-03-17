@@ -199,6 +199,7 @@ public class CharacterCard : MonoBehaviour
         instance.transform.SetParent(transform.GetChild(1)); //Makes the scale .87 something
         instance.GetComponent<RectTransform>().localScale = new Vector3(1, 1, 1); //Sets the scale back to 1
         instance.onValueChanged.AddListener(delegate { UpdateDictonary(instance); });
+        instance.onValueChanged.AddListener(delegate { damageFormulaReader.DamageFormulaInput(); });
         instance.Select();
     } //Called from addVariableButton
 

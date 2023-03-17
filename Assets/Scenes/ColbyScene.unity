@@ -1282,6 +1282,10 @@ PrefabInstance:
       propertyPath: damageFormulaReader
       value: 
       objectReference: {fileID: 1984287461}
+    - target: {fileID: 3664797805599226449, guid: f0adcb8c8e7645948bba7689c116dc15, type: 3}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[1].m_Target
+      value: 
+      objectReference: {fileID: 1984287461}
     - target: {fileID: 7796372474466886207, guid: f0adcb8c8e7645948bba7689c116dc15, type: 3}
       propertyPath: m_Text
       value: 100/100
