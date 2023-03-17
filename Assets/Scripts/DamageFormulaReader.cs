@@ -67,25 +67,57 @@ public class DamageFormulaReader : MonoBehaviour
         tempExpression = stringBuilder.ToString();
         possibleKeys = tempExpression.Split(" ").ToList();
         mathExpression = "";
+        warningSign.SetActive(false);
+        bool operatorIncomplete = true;
+        int parenthesisCount = 0;
 
         for (int i = 0; i < possibleKeys.Count; i++)
         {
-            if (possibleKeys[i] == "+" || possibleKeys[i] == "-" || possibleKeys[i] == "*" || possibleKeys[i] == "/" || possibleKeys[i] == "(" || possibleKeys[i] == ")")
+            if (string.IsNullOrWhiteSpace(possibleKeys[i]))
             {
-                warningSign.SetActive(false);
+                continue;
+            }
+            if (attackingCard.characterStats.TryGetValue(possibleKeys[i], out newValue))
+            {
+                if (operatorIncomplete)
+                {
+                    operatorIncomplete = false;
+                    warningSign.SetActive(false);
+                    mathExpression += newValue;
+                }
+                else
+                {
+                    warningSign.SetActive(true);
+                    Debug.LogWarning("No operator between values");
+                }
+            }
+            else if (possibleKeys[i] == "+" || possibleKeys[i] == "*" || possibleKeys[i] == "/" || possibleKeys[i] == "-")
+            {
+                warningSign.SetActive(true);
+                Debug.LogWarning("Operator used without a value");
+                operatorIncomplete = true;
                 mathExpression += possibleKeys[i];
             }
-            else if (attackingCard.characterStats.TryGetValue(possibleKeys[i], out newValue))
+            else if (possibleKeys[i] == "(")
             {
-                warningSign.SetActive(false);
-                mathExpression += newValue;
+                parenthesisCount++;
+            }
+            else if (possibleKeys[i] == ")")
+            {
+                parenthesisCount--;
             }
             else
             {
                 warningSign.SetActive(true);
             }
         }
-        if (!warningSign.activeSelf) //If there are no errors, calculate damage
+        if (parenthesisCount != 0)
+        {
+            warningSign.SetActive(true);
+            Debug.LogWarning("Mismatch of parenthesis");
+        }
+
+        if (!warningSign.activeSelf && !string.IsNullOrEmpty(mathExpression)) //If there are no errors, calculate damage
         {
             damage = (int)Evaluate(mathExpression);
         }
@@ -261,16 +293,6 @@ public class DamageFormulaReader : MonoBehaviour
             Debug.Log(errorCode);
             return 0;
         }
-        /* Cstrings end in \0, but not strings
-        if (expression[index] != '\0')
-        {
-            errorCode = ERROR_CODES.WRONG_CHAR;
-            errorPosition = index;
-            //return 0;
-            Debug.Log(errorCode);
-            Debug.Log("Error at the end");
-        }
-        */
         return result;
     }
 

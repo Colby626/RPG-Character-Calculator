@@ -135,7 +135,6 @@ public class CharacterCard : MonoBehaviour
             error = true;
         bool beforeNumber = true;
         bool afterNumber = false;
-        Debug.Log(splitString[1].Count());
         if (splitString[1] != null && splitString[1].Count() > 0)
         {
             for (int i = 0; i < splitString[1].Length; i++) //If the element after the colon isn't a number, don't update the dictonary
@@ -200,6 +199,7 @@ public class CharacterCard : MonoBehaviour
         instance.transform.SetParent(transform.GetChild(1)); //Makes the scale .87 something
         instance.GetComponent<RectTransform>().localScale = new Vector3(1, 1, 1); //Sets the scale back to 1
         instance.onValueChanged.AddListener(delegate { UpdateDictonary(instance); });
+        instance.Select();
     } //Called from addVariableButton
 
     
