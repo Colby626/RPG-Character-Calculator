@@ -70,6 +70,7 @@ public class DamageFormulaReader : MonoBehaviour
         warningSign.SetActive(false);
         bool operatorIncomplete = true;
         int parenthesisCount = 0;
+        // example: "(Strength + Dexterity) * Weapon"
 
         for (int i = 0; i < possibleKeys.Count; i++)
         {
@@ -101,10 +102,12 @@ public class DamageFormulaReader : MonoBehaviour
             else if (possibleKeys[i] == "(")
             {
                 parenthesisCount++;
+                mathExpression += possibleKeys[i];
             }
             else if (possibleKeys[i] == ")")
             {
                 parenthesisCount--;
+                mathExpression += possibleKeys[i];
             }
             else
             {
