@@ -217,7 +217,7 @@ RectTransform:
   m_GameObject: {fileID: 8700985476202451367}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 2.4, y: 2.4, z: 2.4}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 6489695839141906620}
@@ -383,6 +383,7 @@ MonoBehaviour:
   damage: 0
   receivingCard: {fileID: 0}
   characterCardTemplate: {fileID: 3581695952171148553, guid: f0adcb8c8e7645948bba7689c116dc15, type: 3}
+  instantiateSpot: {x: 0, y: 0}
 --- !u!1 &8700985476400365865
 GameObject:
   m_ObjectHideFlags: 0

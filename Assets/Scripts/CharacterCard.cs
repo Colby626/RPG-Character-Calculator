@@ -20,6 +20,7 @@ public class CharacterCard : MonoBehaviour
     {
         rect = GetComponent<RectTransform>();
         characterStats = new Dictionary<string, float>();
+        damageFormulaReader = FindObjectOfType<DamageFormulaReader>(); 
 
         List<string> healthAmount = health.text.Split("/").ToList();
         if (healthAmount.Count != 2)
@@ -195,8 +196,7 @@ public class CharacterCard : MonoBehaviour
     public void AddNewVariable()
     {
         rect.sizeDelta = new Vector2(rect.sizeDelta.x, rect.sizeDelta.y + 25);
-        TMP_InputField instance = Instantiate(characterStatInput);
-        instance.transform.SetParent(transform.GetChild(1)); //Makes the scale .87 something
+        TMP_InputField instance = Instantiate(characterStatInput, transform.GetChild(2));
         instance.GetComponent<RectTransform>().localScale = new Vector3(1, 1, 1); //Sets the scale back to 1
         instance.onValueChanged.AddListener(delegate { UpdateDictonary(instance); });
         instance.onValueChanged.AddListener(delegate { damageFormulaReader.DamageFormulaInput(); });

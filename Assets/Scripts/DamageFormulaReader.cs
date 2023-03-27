@@ -9,7 +9,7 @@ public class DamageFormulaReader : MonoBehaviour
 {
     public TMP_InputField inputField;
     public CharacterCard attackingCard;
-    public int damage;
+    public int damage = 0;
     public CharacterCard receivingCard;
     public CharacterCard characterCardTemplate;
     public Vector2 instantiateSpot;
@@ -34,10 +34,16 @@ public class DamageFormulaReader : MonoBehaviour
     {
         warningSign = transform.GetChild(0).gameObject;
         instantiateSpot = new Vector2(320f, 420f);
+        damage = 0;
     }
 
     public void DamageFormulaInput()
     {
+        if (attackingCard == null)
+        {
+            damage = 0;
+            return;
+        }
         bool previousIsSpecial = false;
         StringBuilder stringBuilder = new();
         string tempExpression = inputField.text.ToString(); //ToString() to avoid them referencing the same string and only to copy it
@@ -70,7 +76,6 @@ public class DamageFormulaReader : MonoBehaviour
         warningSign.SetActive(false);
         bool operatorIncomplete = true;
         int parenthesisCount = 0;
-        // example: "(Strength + Dexterity) * Weapon"
 
         for (int i = 0; i < possibleKeys.Count; i++)
         {
@@ -311,7 +316,7 @@ public class DamageFormulaReader : MonoBehaviour
 
     public void AddNewCard()
     {
-        CharacterCard instance = Instantiate(characterCardTemplate, instantiateSpot, Quaternion.identity, transform.parent);
-        instantiateSpot = new Vector2(instantiateSpot.x + 130f, instantiateSpot.y); //+130f will be removed when dragging the cards works
+        CharacterCard instance = Instantiate(characterCardTemplate, instantiateSpot, Quaternion.identity, GameObject.FindGameObjectWithTag("BottomCanvas").transform);
+        instantiateSpot = new Vector2(instantiateSpot.x, instantiateSpot.y);
     } //Called from button
 }
