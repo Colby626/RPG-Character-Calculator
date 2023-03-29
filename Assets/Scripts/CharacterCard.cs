@@ -13,12 +13,14 @@ public class CharacterCard : MonoBehaviour
     private float healthValue;
     private float maxHealth;
     private RectTransform rect;
+    private RectTransform childRect;
     private bool error = false;
     private bool healthError = false;
 
     private void Start()
     {
         rect = GetComponent<RectTransform>();
+        childRect = transform.GetChild(0).GetComponent<RectTransform>();
         characterStats = new Dictionary<string, float>();
         damageFormulaReader = FindObjectOfType<DamageFormulaReader>(); 
 
@@ -196,6 +198,7 @@ public class CharacterCard : MonoBehaviour
     public void AddNewVariable()
     {
         rect.sizeDelta = new Vector2(rect.sizeDelta.x, rect.sizeDelta.y + 25);
+        childRect.sizeDelta = new Vector2(childRect.sizeDelta.x, childRect.sizeDelta.y + 25);
         TMP_InputField instance = Instantiate(characterStatInput, transform.GetChild(2));
         instance.GetComponent<RectTransform>().localScale = new Vector3(1, 1, 1); //Sets the scale back to 1
         instance.onValueChanged.AddListener(delegate { UpdateDictonary(instance); });

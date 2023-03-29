@@ -95,12 +95,14 @@ public class DamageFormulaReader : MonoBehaviour
                 {
                     warningSign.SetActive(true);
                     Debug.LogWarning("No operator between values");
+                    transform.GetChild(2).GetComponent<TextMeshProUGUI>().text = "No operator between values";
                 }
             }
             else if (possibleKeys[i] == "+" || possibleKeys[i] == "*" || possibleKeys[i] == "/" || possibleKeys[i] == "-")
             {
                 warningSign.SetActive(true);
                 Debug.LogWarning("Operator used without a value");
+                transform.GetChild(2).GetComponent<TextMeshProUGUI>().text = "Operator used without a value";
                 operatorIncomplete = true;
                 mathExpression += possibleKeys[i];
             }
@@ -123,6 +125,7 @@ public class DamageFormulaReader : MonoBehaviour
         {
             warningSign.SetActive(true);
             Debug.LogWarning("Mismatch of parenthesis");
+            transform.GetChild(2).GetComponent<TextMeshProUGUI>().text = "Mismatch of parenthesis";
         }
 
         if (!warningSign.activeSelf && !string.IsNullOrEmpty(mathExpression)) //If there are no errors, calculate damage
@@ -292,13 +295,13 @@ public class DamageFormulaReader : MonoBehaviour
         if (index >= expression.Length)
         {
             Debug.Log(result);
+            transform.GetChild(2).GetComponent<TextMeshProUGUI>().text = result.ToString() + " damage";
             return result;
         }
         else if (parenthesisCount != 0 || expression[index] == ')')
         {
             errorCode = ERROR_CODES.PARENTHESIS;
             errorPosition = index;
-            Debug.Log(errorCode);
             return 0;
         }
         return result;
@@ -316,7 +319,7 @@ public class DamageFormulaReader : MonoBehaviour
 
     public void AddNewCard()
     {
-        CharacterCard instance = Instantiate(characterCardTemplate, instantiateSpot, Quaternion.identity, GameObject.FindGameObjectWithTag("BottomCanvas").transform);
+        CharacterCard instance = Instantiate(characterCardTemplate, instantiateSpot, Quaternion.identity, GameObject.FindGameObjectWithTag("Canvas").transform);
         instantiateSpot = new Vector2(instantiateSpot.x, instantiateSpot.y);
     } //Called from button
 }

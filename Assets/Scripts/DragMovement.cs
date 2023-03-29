@@ -4,8 +4,6 @@ using UnityEngine.UI;
 
 public class DragMovement : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHandler, IPointerEnterHandler, IPointerExitHandler
 {
-    private Transform bottomCanvas;
-    private Transform topCanvas;
     private Image thisImage;
     private DamageFormulaReader damageFormulaReader;
     private Vector2 offset;
@@ -14,8 +12,6 @@ public class DragMovement : MonoBehaviour, IDragHandler, IBeginDragHandler, IEnd
     public void Start()
     {
         thisImage = GetComponent<Image>();
-        bottomCanvas = GameObject.FindGameObjectWithTag("BottomCanvas").transform;
-        topCanvas = GameObject.FindGameObjectWithTag("TopCanvas").transform;
         damageFormulaReader = FindObjectOfType<DamageFormulaReader>();
     }
 
@@ -23,7 +19,7 @@ public class DragMovement : MonoBehaviour, IDragHandler, IBeginDragHandler, IEnd
     {
         startPosition = transform.position;
         thisImage.raycastTarget = false;
-        transform.SetParent(topCanvas);
+        transform.SetSiblingIndex(transform.parent.childCount-1);
         offset = new Vector2(transform.position.x, transform.position.y) - pointerEventData.position;
         damageFormulaReader.attackingCard = transform.GetComponent<CharacterCard>();
         damageFormulaReader.DamageFormulaInput();
@@ -45,7 +41,6 @@ public class DragMovement : MonoBehaviour, IDragHandler, IBeginDragHandler, IEnd
             }
         }
         thisImage.raycastTarget = true;
-        transform.SetParent(bottomCanvas);
         damageFormulaReader.attackingCard = null;
         if (damageFormulaReader.receivingCard != null)
         {
