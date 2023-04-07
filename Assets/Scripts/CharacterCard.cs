@@ -2,9 +2,10 @@ using System.Collections.Generic; //For Lists
 using System.Linq;
 using TMPro;
 using UnityEngine;
-
+using Photon.Pun;
 public class CharacterCard : MonoBehaviour
 {
+    private Canvas canvas;
     public DamageFormulaReader damageFormulaReader;
     public Dictionary<string, float> characterStats;
     public TMP_InputField characterStatInput;
@@ -16,13 +17,20 @@ public class CharacterCard : MonoBehaviour
     private RectTransform childRect;
     private bool error = false;
     private bool healthError = false;
+    private PhotonView view;
 
     private void Start()
     {
+        canvas = GameObject.FindGameObjectWithTag("Canvas").GetComponent<Canvas>();
+        view = GetComponent<PhotonView>();
         rect = GetComponent<RectTransform>();
         childRect = transform.GetChild(0).GetComponent<RectTransform>();
         characterStats = new Dictionary<string, float>();
-        damageFormulaReader = FindObjectOfType<DamageFormulaReader>(); 
+        damageFormulaReader = FindObjectOfType<DamageFormulaReader>();
+
+        transform.parent = canvas.transform;
+        rect.localScale = Vector3.one;
+        rect.anchoredPosition = FindObjectOfType<SpawnCards>().randomPos;
 
         List<string> healthAmount = health.text.Split("/").ToList();
         if (healthAmount.Count != 2)

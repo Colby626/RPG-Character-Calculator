@@ -1,16 +1,19 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
+using Photon.Pun;
 
 public class DragMovement : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHandler, IPointerEnterHandler, IPointerExitHandler
 {
     private Image thisImage;
+    private PhotonView view;
     private DamageFormulaReader damageFormulaReader;
     private Vector2 offset;
     private Vector2 startPosition;
 
     public void Start()
     {
+        view = GetComponent<PhotonView>();
         thisImage = GetComponent<Image>();
         damageFormulaReader = FindObjectOfType<DamageFormulaReader>();
     }
