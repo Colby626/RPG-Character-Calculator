@@ -15,6 +15,6 @@ EditorBuildSettings:
     path: Assets/Scenes/LobbyScene.unity
     guid: 3c6178c00a803b94d8cc118db3b8e600
   - enabled: 1
-    path: Assets/Scenes/ColbyScene.unity
+    path: Assets/Scenes/LiamScene.unity
     guid: 001ba3d09adb81e4e8fc1d010ff6553e
   m_configObjects: {}
