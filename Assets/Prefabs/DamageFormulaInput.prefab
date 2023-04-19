@@ -68,8 +68,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: "\u200B"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: e8516a74747d47949b6427fed8693ed2, type: 2}
+  m_sharedMaterial: {fileID: -3864446387904263569, guid: e8516a74747d47949b6427fed8693ed2, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -453,8 +453,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Enter damage formula...
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: e8516a74747d47949b6427fed8693ed2, type: 2}
+  m_sharedMaterial: {fileID: -3864446387904263569, guid: e8516a74747d47949b6427fed8693ed2, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -547,6 +547,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 8700985476202451366}
     m_Modifications:
+    - target: {fileID: 2930847655323543542, guid: 8c3e242c59ae76c46af35e9b2356fa59, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 7da313e7b9c303840903a65e045d4edc, type: 3}
     - target: {fileID: 4604565225449085579, guid: 8c3e242c59ae76c46af35e9b2356fa59, type: 3}
       propertyPath: m_Pivot.x
       value: 1
