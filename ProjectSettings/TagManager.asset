@@ -5,6 +5,9 @@ TagManager:
   serializedVersion: 2
   tags:
   - Canvas
+  - Connector
+  - Node
+  - Line
   layers:
   - Default
   - TransparentFX
